@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.core.mail import send_mass_mail
 from django.utils.translation import gettext as _
 
-from .forms import SubscribeForm
+from .forms import SubscribeForm, UnsubscribeForm
 from .models import Subscription
 
 
@@ -18,9 +18,7 @@ def index(request):
             form.email = form.cleaned_data['email']
             form.state = form.cleaned_data['state']
             form.save()
-            # redirects to the same page to clear the form
-            # TO-DO: redirect to form
-            return redirect('/')
+            return redirect('/') # clears form
     else:
         form = SubscribeForm()
     return render(request, 'index.html', {'form': form})
@@ -28,3 +26,15 @@ def index(request):
 
 def thanks(request):
     return HttpResponse("Thank you! You have been subscribed.")
+
+def unsubscribe(request):
+    if request.method == 'POST':
+        form = UnsubscribeForm(request.POST)
+        if form.is_valid():
+            form.email = form.cleaned_data['email']
+            form.save()
+            return redirect('/') # clears form
+    else:
+        form = UnsubscribeForm()
+
+    return render(request, 'unsubscribe.html', {'form': form})

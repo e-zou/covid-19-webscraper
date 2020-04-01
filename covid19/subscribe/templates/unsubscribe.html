@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container column col-lg-8 justify-content-center align-items-center">
+    <a href={% url 'index' %}><-</a>
+    <h1 class="mt-2">Unsubscribe</h1>
+    <hr class="mt-0 mb-4">
+    {% crispy form %}
+    
+</div>
+
+{% endblock %}
