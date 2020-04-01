@@ -20,7 +20,7 @@ def index(request):
             form.save()
             # redirects to the same page to clear the form
             # TO-DO: redirect to form
-            return redirect('/subscribe')
+            return redirect('/')
     else:
         form = SubscribeForm()
     return render(request, 'index.html', {'form': form})
