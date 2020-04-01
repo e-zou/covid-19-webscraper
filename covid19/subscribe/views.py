@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.mail import send_mass_mail
 from django.utils.translation import gettext as _
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from .forms import SubscribeForm, UnsubscribeForm
 from .models import Subscription
@@ -27,14 +29,17 @@ def index(request):
 def thanks(request):
     return HttpResponse("Thank you! You have been subscribed.")
 
+
+# TO-DO: wait until the person has gotten an email to unsubscribe
 def unsubscribe(request):
+    form = UnsubscribeForm(request.POST or None)
     if request.method == 'POST':
-        form = UnsubscribeForm(request.POST)
         if form.is_valid():
-            form.email = form.cleaned_data['email']
-            form.save()
-            return redirect('/') # clears form
-    else:
-        form = UnsubscribeForm()
+            form_email = form.cleaned_data['email']
+            if (Subscription.objects.filter(email = form_email).exists()):
+                subscription = Subscription.objects.filter(email = form_email)
+                for s in subscription:
+                    s.delete()
+                return redirect('/')
 
     return render(request, 'unsubscribe.html', {'form': form})
