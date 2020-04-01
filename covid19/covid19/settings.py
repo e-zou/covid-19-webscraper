@@ -25,8 +25,15 @@ SECRET_KEY = '-+#(qyaceo*eapfll3u00!in#4ih753gsn0+@s6$ra+1r2lh+w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+# Important for Sending Email !!!
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ashmilyz@gmail.com'
+EMAIL_HOST_PASSWORD = 'eazgmail123'
+EMAIL_USE_TLS = True
+# https://myaccount.google.com/lesssecureapps 
 
 # Application definition
 
